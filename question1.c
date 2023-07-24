@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdarg.h>
 /**
- * printf - This function takes a format string and a variable number of arguments,
+ *printf - this function takes a format string and a variable number of arguments,
  * and processes the format specifiers within the format string to print the
  * corresponding data in a formatted manner.
- * @param format The format specifier string containing directives and text to print.
- * @param ...    The variable arguments that correspond to the format specifiers
- *               in the format string.
- * @return The total number of characters printed (excluding the null byte used to end output to strings).
+ * @param:format The format specifier string containing directives and text to print.
+ * @param ...:The variable arguments that correspond to the format specifiers
+ *            in the format string.
+ * @return: The total number of characters printed (excluding the null byte used to end output to strings).
  */
 int _printf(const char *format, ...)
 {
