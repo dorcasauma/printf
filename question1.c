@@ -9,57 +9,72 @@
  *            in the format string.
  * Return: The total number of characters printed (excluding the null byte used to end output to strings).
  */
-int _printf(const char *format, ...)
-{
-char c;
-va_list args;
-int count;
-count = 0;
-va_start(args, format);
-while (*format)
-{
-if (*format == '%')
-{
-format++;
-switch (*format)
-{
-case 'c':
-c = (char)va_arg(args, int);
-putchar(c);
-count++;
-break;
-case 's':
-{
-char *s = va_arg(args, char *);
-if (s)
-{
-while (*s)
-{
-putchar(*s);
-s++;
-count++;
+#include <stdio.h>
+#include <stdarg.h>
+
+
+int _printf(const char *format, ...) {
+    int printed_chars = 0;
+    va_list args;
+    va_start(args, format);
+
+    while (*format) {
+        if (*format == '%') {
+            format++; // Move past the '%'
+
+            if (*format == 'c')
+                putchar(*format);
+            else if (*format == 's')
+                fputs(format, stdout);
+            else if (*format == '%')
+                putchar('%');
+            else if (*format == 'd')
+                printf("%d", va_arg(args, int));
+            else if (*format == 'i')
+                printf("%i", va_arg(args, int));
+        } else {
+            // Regular character, not a format specifier
+            putchar(*format);
+        }
+        printed_chars++;
+        format++;
+    }
+
+    va_end(args);
+
+    return printed_chars;
 }
-}
-break;
-}
-case '%':
-putchar('%');
-count++;
-break;
-default:
-putchar('%');
-putchar(*format);
-count += 2;
-break;
-}
-}
-else
-{
-putchar(*format);
-count++;
-}
-format++;
-}
-va_end(args);
-return (count);
+
+void print_var_args(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    while (*format) {
+        if (*format == '%') {
+            format++; // Move past the '%'
+
+            switch (*format) {
+                case 'c':
+                    // char type
+                    printf("%c ", va_arg(args, int));
+                    break;
+
+                case 'd':
+                    // int type
+                    printf("%d ", va_arg(args, int));
+                    break;
+
+                case 's':
+                    // string type
+                    printf("%s ", va_arg(args, const char*));
+                    break;
+
+                default:
+                    // Unknown format specifier, just skip it
+                    break;
+            }
+        }
+
+        format++;
+        va_end(args);
+    }
 }
