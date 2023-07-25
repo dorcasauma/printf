@@ -44,37 +44,3 @@ int _printf(const char *format, ...) {
 
     return printed_chars;
 }
-
-void print_var_args(const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-    while (*format) {
-        if (*format == '%') {
-            format++; // Move past the '%'
-
-            switch (*format) {
-                case 'c':
-                    // char type
-                    printf("%c ", va_arg(args, int));
-                    break;
-
-                case 'd':
-                    // int type
-                    printf("%d ", va_arg(args, int));
-                    break;
-
-                case 's':
-                    // string type
-                    printf("%s ", va_arg(args, const char*));
-                    break;
-
-                default:
-                    // Unknown format specifier, just skip it
-                    break;
-            }
-        }
-
-        format++;
-        va_end(args);
-    }
-}
